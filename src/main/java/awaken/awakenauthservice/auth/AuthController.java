@@ -1,16 +1,36 @@
 package awaken.awakenauthservice.auth;
+import awaken.awakenauthservice.user.UserCredential;
+import awaken.awakenauthservice.user.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import static awaken.awakenauthservice.exception.ApiExceptionBuilder.InvalidCredentialException;
 
-@RestController
-@RequestMapping("/auth")
+@RestController @RequestMapping("/auth")
 public class AuthController {
+  @Autowired private AuthService authService;
+  @Autowired private UserRepository userRepository;
 
-  @GetMapping("token")
-  public String getTreeById() {
-    return "Hello world 20";
+  @PostMapping("token")
+  public void getUserAuthenticationToken(
+          @RequestBody UserCredential userCredential,
+          HttpServletResponse response) {
+    response.addCookie(
+            new Cookie("session-id",
+                       authService
+                               .createUserSession(userCredential)
+                               .id()
+            )
+    );
+    return;
   }
+
+  @GetMapping("error")
+  public void returnError() {
+    throw InvalidCredentialException("Bad things happended");
+  }
+
 }

@@ -11,16 +11,22 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
+import static awaken.awakenauthservice.exception.ApiExceptionBuilder.InvalidCredentialException;
+
 @Service
 public class AuthService {
 
   private final SessionRepository sessionRepository;
 
-  public AuthService(SessionRepository sessionRepository){
+  public AuthService(SessionRepository sessionRepository) {
     this.sessionRepository = sessionRepository;
   }
 
-  protected Session createUserSession(UserCredential credentials){
+  private static Session unwrapSession(Optional<Session> session) {
+    return session.orElseThrow(() -> InvalidCredentialException("Invalid or expired session id"));
+  }
+
+  protected Session createUserSession(UserCredential credentials) {
     Session session = new Session()
             .user(credentials.getUser().join());
 
@@ -28,17 +34,22 @@ public class AuthService {
   }
 
   @Async
-  protected CompletableFuture<Optional<Session>> getSession(String sessionId){
-    return sessionRepository.getSessionById(sessionId);
+  protected CompletableFuture<Session> getSession(String sessionId) {
+    return sessionRepository
+            .getSessionById(sessionId)
+            .thenApply(AuthService::unwrapSession);
   }
 
   @Async
-  protected CompletableFuture<Optional<Session>> deleteSession(String sessionId){
-    return sessionRepository.deleteSessionById(sessionId);
+  protected CompletableFuture<Session> deleteSession(String sessionId) {
+    return sessionRepository
+            .deleteSessionById(sessionId)
+            .thenApply(AuthService::unwrapSession);
   }
 
   @Async
-  protected CompletableFuture<Optional<List<Session>>> deleteSession(User user){
+  protected CompletableFuture<List<Session>> deleteSession(User user) {
     return sessionRepository.deleteSessionByUser(user);
   }
+
 }

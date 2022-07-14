@@ -17,5 +17,5 @@ public interface SessionRepository extends JpaRepository<Session, String> {
   CompletableFuture<Optional<Session>> deleteSessionById(String id);
 
   @Async
-  CompletableFuture<Optional<List<Session>>> deleteSessionByUser(User user);
+  CompletableFuture<List<Session>> deleteSessionByUser(User user);
 }

@@ -11,7 +11,7 @@ public class AuthExceptionController extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler(ApiException.class)
   public ResponseEntity<Object> handleApiException(ApiException ex) {
-    return ResponseEntity.status(HttpStatus.OK).body(ex.DTO());
+    return ResponseEntity.status(ex.getCode()).body(ex.DTO());
   }
 
   @ExceptionHandler(Exception.class)
@@ -19,7 +19,7 @@ public class AuthExceptionController extends ResponseEntityExceptionHandler {
     return ResponseEntity
             .status(500)
             .body(new ApiException()
-                          .setCode(500)
+                          .setCode(HttpStatus.INTERNAL_SERVER_ERROR)
                           .setMessage("Something went wrong").DTO()
             );
   }

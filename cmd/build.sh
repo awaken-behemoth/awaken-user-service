@@ -2,4 +2,4 @@
 
 cd "$(dirname "$0")" && cd ..
 
-docker build . -t awaken-email-service 
+docker build . -t awaken-auth-service

@@ -26,6 +26,6 @@ public class UserCredentialBasic implements UserCredential {
 
               return Optional.of(new User());
             });
-
   }
+
 }

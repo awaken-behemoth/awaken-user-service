@@ -2,4 +2,4 @@
 
 cd "$(dirname "$0")" && cd ..
 
-pipenv install
+echo "awaken auth service initialization completed"

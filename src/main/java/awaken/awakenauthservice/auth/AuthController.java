@@ -1,25 +1,41 @@
 package awaken.awakenauthservice.auth;
 
+import awaken.awakenauthservice.session.Session;
+import awaken.awakenauthservice.user.User;
 import awaken.awakenauthservice.user.UserCredential;
-import awaken.awakenauthservice.user.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
-@RestController @RequestMapping("/auth")
+@RestController
+@RequestMapping("/")
 public class AuthController {
-  @Autowired private AuthService authService;
-  @Autowired private UserRepository userRepository;
+  private final AuthService authService;
+
+  public AuthController(AuthService authService) {
+    this.authService = authService;
+  }
 
   @PostMapping("token")
   public void getUserAuthenticationToken(@RequestBody UserCredential userCredential,
                                          HttpServletResponse response) {
+    String sessionId = authService.createUserSession(userCredential).getId();
+    Cookie cookie = new Cookie("session-id", sessionId);
+    cookie.setPath("/");
+    cookie.setSecure(true);
+    cookie.setHttpOnly(true);
+    response.addCookie(cookie);
+  }
 
-    String sessionId = authService.createUserSession(userCredential).id();
-    response.addCookie(new Cookie("session-id", sessionId));
-    return;
+  @DeleteMapping("token/{id}")
+  public void deleteUserAuthenticationToken(@PathVariable("id") String id) {
+    authService.deleteSession(id);
+  }
+
+  @GetMapping("user/{session-id}")
+  public User getUserBySessionId(@PathVariable("session-id") String id) {
+    Session session = authService.getSession(id).join();
+    return session.getUser();
   }
 
 }

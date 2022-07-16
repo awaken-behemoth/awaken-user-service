@@ -11,7 +11,7 @@ import javax.persistence.*;
 
 
 @Entity
-@Accessors(chain = true, fluent = true)
+@Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "awaken.sessions")

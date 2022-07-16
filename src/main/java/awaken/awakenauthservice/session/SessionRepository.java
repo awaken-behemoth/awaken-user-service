@@ -12,10 +12,8 @@ import java.util.concurrent.CompletableFuture;
 public interface SessionRepository extends JpaRepository<Session, String> {
   @Async
   CompletableFuture<Optional<Session>> getSessionById(String id);
-
   @Async
   CompletableFuture<Optional<Session>> deleteSessionById(String id);
-
   @Async
   CompletableFuture<List<Session>> deleteSessionByUser(User user);
 }

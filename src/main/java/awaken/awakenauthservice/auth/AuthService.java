@@ -4,6 +4,8 @@ import awaken.awakenauthservice.session.Session;
 import awaken.awakenauthservice.session.SessionRepository;
 import awaken.awakenauthservice.user.User;
 import awaken.awakenauthservice.user.UserCredential;
+import awaken.awakenauthservice.user.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +17,12 @@ import static awaken.awakenauthservice.exception.ApiExceptionBuilder.InvalidCred
 
 @Service
 public class AuthService {
-
+  private final UserRepository userRepository;
   private final SessionRepository sessionRepository;
 
-  public AuthService(SessionRepository sessionRepository) {
+  @Autowired
+  public AuthService(SessionRepository sessionRepository, UserRepository userRepository) {
+    this.userRepository = userRepository;
     this.sessionRepository = sessionRepository;
   }
 
@@ -28,8 +32,9 @@ public class AuthService {
 
   protected Session createUserSession(UserCredential credentials) {
     Session session = new Session()
-            .user(credentials.getUser().join());
-
+            .setUser(credentials.getUser(userRepository)
+                          .join()
+                          .orElseThrow(() -> InvalidCredentialException("Wrong username or password")));
     return sessionRepository.save(session);
   }
 

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import org.springframework.scheduling.annotation.Async;
 
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 @JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "type")
@@ -15,5 +16,5 @@ import java.util.concurrent.CompletableFuture;
 })
 public interface UserCredential {
   @Async
-  CompletableFuture<User> getUser();
+  CompletableFuture<Optional<User>> getUser(UserRepository userRepository);
 }

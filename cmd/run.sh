@@ -2,4 +2,4 @@
 
 cd "$(dirname "$0")" && cd ..
 
-gradle rungr
+./gradlew bootRun

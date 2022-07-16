@@ -26,6 +26,7 @@ repositories {
 dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'org.postgresql:postgresql'
+	compileOnly 'commons-codec:commons-codec:1.15'
 	annotationProcessor 'org.projectlombok:lombok'
 	compileOnly "org.springframework.boot:spring-boot-devtools"
 	implementation 'org.springframework.boot:spring-boot-starter-web'

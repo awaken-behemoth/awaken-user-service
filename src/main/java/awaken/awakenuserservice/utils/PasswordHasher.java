@@ -1,12 +1,11 @@
-package awaken.awakenauthservice.utils;
-
-import org.springframework.security.crypto.codec.Hex;
+package awaken.awakenuserservice.utils;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
+import org.apache.commons.codec.binary.Hex;
 
 import static org.apache.tomcat.util.buf.HexUtils.fromHexString;
 
@@ -27,7 +26,9 @@ public class PasswordHasher {
   public static String hashString(String password) {
     byte[] salt = getRandomBytes(SALT_SIZE);
     byte[] hash = computeHash(password.toCharArray(), salt, ITERATIONS, HASH_SIZE);
-    return ITERATIONS + SEPARATOR + Hex.encode(salt) + SEPARATOR + Hex.encode(hash);
+    return ITERATIONS +
+            SEPARATOR + Hex.encodeHexString(salt) +
+            SEPARATOR + Hex.encodeHexString(hash);
   }
 
   public static boolean match(String password, String expectedPasswordHash) {
@@ -72,9 +73,7 @@ public class PasswordHasher {
       PBEKeySpec spec = new PBEKeySpec(password, salt, iterations, bytes * 8);
       SecretKeyFactory skf = SecretKeyFactory.getInstance(PBKDF2_ALGORITHM);
       return skf.generateSecret(spec).getEncoded();
-    } catch (NoSuchAlgorithmException e) {
-      throw new RuntimeException(e);
-    } catch (InvalidKeySpecException e) {
+    } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
       throw new RuntimeException(e);
     }
   }

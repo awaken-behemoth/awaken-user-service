@@ -1,4 +1,4 @@
-package awaken.awakenauthservice.exception;
+package awaken.awakenuserservice.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
-public class AuthExceptionController extends ResponseEntityExceptionHandler {
+public class ApiExceptionController extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler(ApiException.class)
   public ResponseEntity<Object> handleApiException(ApiException ex) {
@@ -23,4 +23,5 @@ public class AuthExceptionController extends ResponseEntityExceptionHandler {
                           .setMessage("Something went wrong").DTO()
             );
   }
+
 }

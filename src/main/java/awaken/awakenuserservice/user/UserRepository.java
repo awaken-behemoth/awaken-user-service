@@ -1,4 +1,4 @@
-package awaken.awakenauthservice.user;
+package awaken.awakenuserservice.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.scheduling.annotation.Async;
@@ -12,4 +12,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
   @Async
   CompletableFuture<Optional<User>> findByUsername(String username);
+
 }

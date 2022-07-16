@@ -1,8 +1,6 @@
-package awaken.awakenauthservice.auth;
+package awaken.awakenuserservice.auth;
 
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class AuthServiceTest {
 

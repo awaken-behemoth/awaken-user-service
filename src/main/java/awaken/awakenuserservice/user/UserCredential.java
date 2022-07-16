@@ -1,4 +1,4 @@
-package awaken.awakenauthservice.user;
+package awaken.awakenuserservice.user;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;

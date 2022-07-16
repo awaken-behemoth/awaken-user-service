@@ -1,4 +1,4 @@
-package awaken.awakenauthservice.exception;
+package awaken.awakenuserservice.exception;
 
 import lombok.Getter;
 import lombok.Setter;

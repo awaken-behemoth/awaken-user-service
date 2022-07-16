@@ -1,4 +1,4 @@
-package awaken.awakenauthservice.user;
+package awaken.awakenuserservice.user;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -24,6 +24,12 @@ public class User {
 
   @Column(name = "username", unique = true)
   @Setter private String username;
+
+  @Column(name = "credential_type")
+  @Setter private UserCredentialType credentialType;
+
+  @Column( name = "oauth_id")
+  @Setter private String oauthId;
 
   private boolean enabled = true;
   private boolean accountNonLocked = true;

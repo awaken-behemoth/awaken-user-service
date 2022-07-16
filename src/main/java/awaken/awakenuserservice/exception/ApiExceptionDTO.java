@@ -1,8 +1,7 @@
-package awaken.awakenauthservice.exception;
+package awaken.awakenuserservice.exception;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
-import org.springframework.http.HttpStatus;
 
 @Data
 @Accessors(chain = true)

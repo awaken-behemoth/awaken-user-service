@@ -1,6 +1,6 @@
-package awaken.awakenauthservice.user;
+package awaken.awakenuserservice.user;
 
-import awaken.awakenauthservice.utils.PasswordHasher;
+import awaken.awakenuserservice.utils.PasswordHasher;
 import lombok.Data;
 
 import java.util.Optional;

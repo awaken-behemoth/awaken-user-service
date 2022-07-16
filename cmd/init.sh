@@ -2,4 +2,4 @@
 
 cd "$(dirname "$0")" && cd ..
 
-echo "awaken auth service initialization completed"
+echo "awaken user service initialization completed"
